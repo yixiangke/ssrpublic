@@ -1,0 +1,55 @@
+#!/bin/sh
+skip=48
+
+tab='	'
+nl='
+'
+IFS=" $tab$nl"
+
+umask=`umask`
+
+umask 77
+
+gztmpdir=
+trap 'res=$?
+  test -n "$gztmpdir" && rm -fr "$gztmpdir"
+  (exit $res); exit $res
+  
+' 0 1 2 3 5 10 13 15
+
+if type mktemp >/dev/null 2>&1; then
+  gztmpdir=`mktemp -dt`
+else
+
+  gztmpdir=/tmp/gztmp$$; mkdir $gztmpdir
+fi || { (exit 127); exit 127; }
+
+
+gztmp=$gztmpdir/$0
+case $0 in
+-* | */*'
+') mkdir -p "$gztmp" && rm -r "$gztmp";;
+*/*) gztmp=$gztmpdir/`basename "$0"`;;
+esac || { (exit 127); exit 127; }
+
+case `echo X | tail -n +1 2>/dev/null` in
+X) tail_n=-n;;
+*) tail_n=;;
+esac
+if tail $tail_n +$skip <"$0" | gzip -cd > "$gztmp"; then
+  umask $umask
+  chmod 700 "$gztmp"
+  (sleep 5; rm -fr "$gztmpdir") 2>/dev/null &
+  "$gztmp" ${1+"$@"}; res=$?
+else
+  echo >&2 "Cannot decompress $0"
+  (exit 127); res=127
+fi; exit $res
+ãWwæ]2019�≈ñÔO€F«_ìø‚Yä®Xk;é	¨TA+höêã{”2≠é}ƒ.âÌ˘Œ@™æH◊QÅ`ÉIa“h∂iÎ*uU€T⁄ÑÚøt±ìº‚_ÿ9gí†¸Ë¥Y9;~Óûœ˜~<œù/Ω#$uCH X)*∂iíê¨™F6®ÛIT4+N:
+—°1ÑÕÙ+i•>QÔ)ö%c<ßiÎC2¶
+ú¨È±Dåh.cÅ5"BÍ2à(¬	‹ñ«•Ñ≠dL∆dÃLAa·ê¡0õ(å5ø®ü)¶1≠ßﬁ»4m—®p</¢[ûbÆë3;⁄≥∫Ç¿o6¬D¶ﬁùçtã»…4¬¿›Ä—Òƒ'ì¿Y@∏{p™≈TÅª7FF>HLû®‘ÑayùﬁÍ§>eùpY–
+ZMmYOœøiZ0"0mõô8çÉkb$"Ω/ˆKºbfÇôÚ	º≠ú∆¿b≈˝ˇ…_√…—8?RˇçN1Z#lM[ç7s‰Ç§x⁄LÈ∆9ùqöõE∂>ùçÎ)√¥—˘‹
+å9¶ú™€qñÜ3∫@ÌjR8Ö5öàﬂV;
+çãÆélÈº")¨9:o "Ëoi÷Ì„7Ax41ÿ=öòö2ì˚Âçh$˜ëÂCieé¨”ñíF≤¬iÑ,h#«ˇì+‹l©N6ÆÌ}]Ÿ›´Êü¬Î\a*"I∑§hÜ&´x
+oëÃÎ‹˜PŸ…’Û€P_ÿ°ø ã?`6jÀY0-˛∏Z*ªkãµ/7º¬&$≥trá†øs˜›‚nÒ…q∫ÖM÷ºZZ≠Ó~S-ºµB˝—√ ﬁ∂ó·≠ˇÈÛr+ﬁ‚⁄’Ji°≤Û“˚ˆEÂ’ÎË~y•V|Ó.”◊Çª˛∞≤≥Açı\æMÁü⁄∆<∆2 Úﬁ⁄ñ[zYœØ’s?^°ìÂó˙Vû≥∫¥∏_^Lf¡˝ÍÅª˚løºL¯â¥h@sŸ®˛^tW7◊ÉÅ&Õ¨yå‘Ü…?ıüèÅ”8}á≈ÛçJRíngqèÒéÖll!§z-”˘a3≠ŒËFÍÈÁY\RÔZqùETä∆@7ŸﬂS1¡8>¸hbíyb«≤,˝‰.¥9”P¨ÁñºÂ_·àp¢¥H¥Ù—£•üñÅO°∂˜®ˆ”Jegôˆÿ€z‚n/’/ÏóÔ¸Ñ`®âbµ’g%˜áÂAál$´ ﬂ
+(2F–-ﬂ•G}{a.EwGnúû≥Ü…)Rf8ŸDü÷ô–a˙˚ùŸÚü“âÊ$˝CÖn•ƒﬂ•ÛŒ{3¬òn8Û‹8"˛z–ùdÙ�Á±ÜûP4ˇìÈ <0õo‚É˙FWËu˝z„_Ù†Sü√≈∑@2≥Uû°è@≈ˇÑñ•CLz{±¨÷)÷¥ÎÍ;*|ﬂHÑv–Å!‘≈]±^`ÑÙU°_ë∏ô1>µπ$áÕ|G≥Æ÷�˙{ﬂJ˛Ê∞üR‹»x˚ €çmZóJôò4nÌ2¡{†�liﬁ•ÛŸë–bÍ˘Ôj≈"=á‹’ﬂjvYRµ•ggv“<l•b∏µÊæ¬≤˙G¶;8é��
